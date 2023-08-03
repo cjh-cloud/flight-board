@@ -26,6 +26,30 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+nest g controller auth
+nest g service auth
+nest g module auth
+
+yarn add class-validator class-transformer
+yarn add @nestjs/jwt passport-jwt
+yarn add @nestjs/passport passport
+yarn add bcrypt
+yarn add -D @types/bcrypt
+yarn add -D @types/passport-jwt
+yarn add @nestjs/typeorm typeorm pg
+yarn add @nestjs/config
+
+npm run typeorm:create-migrations --name=PublicItems
+yarn typeorm migration:run -d ./typeOrm.config.ts
+
+docker compose up
+docker exec -it flight-board-postgres-1 psql -U root -W -d nestjs_typeorm
+
+\c
+\l
+\dt
+select * from public.user;
+
 ## Installation
 
 ```bash
