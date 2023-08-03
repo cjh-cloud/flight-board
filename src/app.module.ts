@@ -9,12 +9,14 @@ import { DatabaseModule } from 'src/database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards';
+import { FlightModule } from './flight/flight.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
-    DatabaseModule
+    DatabaseModule,
+    FlightModule
   ],
   controllers: [
     AppController,

@@ -50,6 +50,10 @@ docker exec -it flight-board-postgres-1 psql -U root -W -d nestjs_typeorm
 \dt
 select * from public.user;
 
+nest g module flight
+nest g service flight
+nest g controller flight
+
 ## Installation
 
 ```bash
