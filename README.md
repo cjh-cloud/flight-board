@@ -26,6 +26,17 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+
+### Tasks
+- [ ] Decorators for methods don't seem to work (validating body contains required fields)
+- [ ] Prometheus / Open Telemetry
+- [x] Swagger - visit /api
+- [ ] Airlines
+- [ ] Status
+- [ ] Flight Schedules
+- [ ] Cron process to generate flights for the day 
+
+### Commands run during development
 nest g controller auth
 nest g service auth
 nest g module auth
@@ -53,6 +64,9 @@ select * from public.user;
 nest g module flight
 nest g service flight
 nest g controller flight
+
+npm install --save @nestjs/swagger
+
 
 ## Installation
 
