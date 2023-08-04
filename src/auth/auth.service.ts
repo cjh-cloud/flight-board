@@ -1,5 +1,4 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-// import { PrismaService } from 'src/prisma/prisma.service'; // TODO : prisma
 import { EntityManager, Repository } from 'typeorm';
 import { UserDto } from './dto';
 import * as bcrypt from 'bcrypt';
@@ -10,9 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
-  // TODO : prisma
   constructor(
-    // private prisma: PrismaService,
     @InjectRepository(User)
     private readonly itemsRepository: Repository<User>,
     private readonly entityManager: EntityManager,
