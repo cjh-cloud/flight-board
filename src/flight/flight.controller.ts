@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { Public } from 'src/common/decorators';
 import { AirlineDto } from './dto';
+import { StatusDto } from './dto/status.dto';
 import { Airline } from './entities/airline.entity';
+import { Status } from './entities/status.entity';
 import { FlightService } from './flight.service';
 
 @Controller('flight')
@@ -23,6 +25,18 @@ export class FlightController {
   @Post('airline')
   createAirline(@Body() dto: AirlineDto) {
     return this.flightService.createAirline(dto);
+  }
+
+  @Public()
+  @Get('status')
+  getStatuses(): Promise<Status[]> {
+    return this.flightService.getStatuses();
+  }
+
+  @Public()
+  @Post('status')
+  createStatus(@Body() dto: StatusDto) {
+    return this.flightService.createStatus(dto);
   }
 
 }
