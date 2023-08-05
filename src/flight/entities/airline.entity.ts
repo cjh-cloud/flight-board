@@ -1,5 +1,6 @@
 import { AbstractEntity } from "../../database/abstract.entity";
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
+import { FlightSchedule } from "./flightSchedule.entity";
 
 // DB entity of Airline names
 
@@ -8,5 +9,9 @@ export class Airline extends AbstractEntity<Airline> {
 
   @Column({ unique: true })
   name: string;
+
+  // One Airline with Many Flights
+  @OneToMany(() => FlightSchedule, (flights) => flights.airline, { cascade: true })
+  flightSchedules: FlightSchedule[];
 
 }
