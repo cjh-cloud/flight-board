@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { Public } from 'src/common/decorators';
 import { AirlineDto } from './dto';
+import { ScheduleDto } from './dto/schedule.dto';
 import { StatusDto } from './dto/status.dto';
 import { Airline } from './entities/airline.entity';
 import { Status } from './entities/status.entity';
@@ -37,6 +38,12 @@ export class FlightController {
   @Post('status')
   createStatus(@Body() dto: StatusDto) {
     return this.flightService.createStatus(dto);
+  }
+
+  @Public()
+  @Post('schedule')
+  createSchedule(@Body() dto: ScheduleDto) {
+    return this.flightService.createSchedule(dto);
   }
 
 }

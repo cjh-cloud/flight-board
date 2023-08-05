@@ -15,7 +15,7 @@ export class FlightSchedule extends AbstractEntity<FlightSchedule> {
   flights: Flight[];
 
   @Column()
-  flightNumber: number;
+  flightNumber: string;
 
   @Column()
   destination: string;

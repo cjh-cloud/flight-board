@@ -2,8 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
 import { AirlineDto } from './dto';
+import { ScheduleDto } from './dto/schedule.dto';
 import { StatusDto } from './dto/status.dto';
 import { Airline } from './entities/airline.entity';
+import { FlightSchedule } from './entities/flightSchedule.entity';
 import { Status } from './entities/status.entity';
 
 @Injectable()
@@ -49,5 +51,25 @@ export class FlightService {
     });
 
     await this.entityManager.save(newStatus);
+  }
+
+  async getSchedule() { }
+
+  async getAllSchedules() { }
+
+  async createSchedule(dto: ScheduleDto) {
+    const newSchedule = new FlightSchedule({
+      ...dto
+    });
+
+    await this.entityManager.save(newSchedule);
+  }
+
+  async updateSchedule() {
+
+  }
+
+  async deleteSchedule() {
+
   }
 }

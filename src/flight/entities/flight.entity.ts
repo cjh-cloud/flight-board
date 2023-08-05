@@ -17,6 +17,9 @@ export class Flight extends AbstractEntity<Flight> {
   @Column('time', { nullable: true })
   actualDepartureTime: Date;
 
+  @Column()
+  flightDate: Date; // Date the flight is on, cron job will generate this
+
   // Many flights to one status
   @ManyToOne(() => Status, (status) => status.flights)
   status: Status;
