@@ -65,8 +65,10 @@ nest g module flight
 nest g service flight
 nest g controller flight
 
-npm install --save @nestjs/swagger
+yarn add @nestjs/swagger
 
+yarn add @nestjs/schedule
+yarn add --dev @types/cron
 
 ## Installation
 
