@@ -10,10 +10,16 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards';
 import { FlightModule } from './flight/flight.module';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { CustomPrometheusController } from "./prometheus.controller";
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    PrometheusModule.register({
+      controller: CustomPrometheusController,
+    }),
     AuthModule,
     DatabaseModule,
     FlightModule

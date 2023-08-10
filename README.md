@@ -70,6 +70,15 @@ yarn add @nestjs/swagger
 yarn add @nestjs/schedule
 yarn add --dev @types/cron
 
+$ yarn add @willsoto/nestjs-prometheus prom-client
+$ docker buildx build --platform linux/amd64 -t flight-board .
+
+$ helm create flight-board
+$ cd templates
+$ kubectl create deployment flight-board --image=[ACCOUNT_ID].dkr.ecr.ap-southeast-2.amazonaws.com/prometheus-sample-app:flight-board --port 3000 --dry-run=client -o yaml > deployment.yaml
+$ helm install flight-board . # will fail because of missing dependedncies
+$ helm dependency update
+
 ## Installation
 
 ```bash
