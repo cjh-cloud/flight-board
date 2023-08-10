@@ -1,0 +1,89 @@
+# Build and push tooling docker image
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# GitHub recommends pinning actions to a commit SHA.
+# To get a newer version, you will need to update the SHA.
+# You can also reference a tag or branch, but the action may change without warning.
+
+# https://github.com/cjh-cloud/collective/blob/terraform/.github/workflows/tooling.yaml
+
+name: Build and release new version
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      issues: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.7.0
+        with:
+          # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
+          node-version: 18.x # optional
+
+      - name: Install Semantic Relase and plugins
+        run: |
+          npm install semantic-release @semantic-release/exec @semantic-release/changelog @semantic-release/github
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Determine upcoming release version
+        run: |
+          # This creates file (nextRelease) in root, due to .releaserc config
+          npx semantic-release --dry-run
+          if [ ! -f "nextRelease" ] ; then
+            echo "::warning::There are no relevant changes, so no new version is released."
+            exit 1
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set nextRelease variable
+        run: echo "nextRelease=$(cat ./nextRelease)" >> "$GITHUB_ENV"
+
+      - name: Output nextRelease value
+        run: |
+          printf '%s\n' "$nextRelease"
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.nextRelease }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Create Release
+        run: npx semantic-release
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
