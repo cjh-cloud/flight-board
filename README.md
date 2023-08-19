@@ -29,12 +29,14 @@
 
 ### Tasks
 - [ ] Decorators for methods don't seem to work (validating body contains required fields)
-- [ ] Prometheus / Open Telemetry
+- [x] Prometheus / Open Telemetry
 - [x] Swagger - visit /api
-- [ ] Airlines
-- [ ] Status
-- [ ] Flight Schedules
-- [ ] Cron process to generate flights for the day 
+- [x] Airlines
+- [x] Status
+- [x] Flight Schedules
+- [x] Flights
+- [x] Cron process to generate flights for the day 
+- [ ] Pub/Sub, emit events on changes to flights, update api, redis or aws sns
 
 ### Commands run during development
 nest g controller auth

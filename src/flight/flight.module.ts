@@ -4,7 +4,7 @@ import { FlightController } from './flight.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Airline } from './entities/airline.entity';
 import { Status } from './entities/status.entity';
-import { FlightSchedule } from './entities/flightSchedule.entity';
+import { FlightSchedule } from './entities/schedule.entity';
 import { Flight } from './entities/flight.entity';
 import { ScheduleModule } from '@nestjs/schedule';
 

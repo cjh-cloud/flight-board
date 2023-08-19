@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Public } from 'src/common/decorators';
 import { AirlineDto } from './dto';
+import { FlightSearchDto } from './dto/flightSearch.dto';
 import { ScheduleDto } from './dto/schedule.dto';
 import { StatusDto } from './dto/status.dto';
 import { Airline } from './entities/airline.entity';
+import { Flight } from './entities/flight.entity';
 import { Status } from './entities/status.entity';
 import { FlightService } from './flight.service';
 
@@ -11,10 +13,10 @@ import { FlightService } from './flight.service';
 export class FlightController {
   constructor(private readonly flightService: FlightService) { }
 
-  @Get()
-  getHello(): string {
-    return this.flightService.getHello();
-  }
+  // @Get()
+  // getHello(): string {
+  //   return this.flightService.getHello();
+  // }
 
   @Public()
   @Get('airline')
@@ -44,6 +46,12 @@ export class FlightController {
   @Post('schedule')
   createSchedule(@Body() dto: ScheduleDto) {
     return this.flightService.createSchedule(dto);
+  }
+
+  @Public()
+  @Get()
+  getFlights(@Body() dto: FlightSearchDto): Promise<Flight[]> {
+    return this.flightService.getFlights(dto);
   }
 
 }

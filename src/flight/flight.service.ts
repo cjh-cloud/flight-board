@@ -6,11 +6,12 @@ import { CronJob } from 'cron';
 import { EntityManager, Repository } from 'typeorm';
 import { AirlineDto } from './dto';
 import { FlightDto } from './dto/flight.dto';
+import { FlightSearchDto } from './dto/flightSearch.dto';
 import { ScheduleDto } from './dto/schedule.dto';
 import { StatusDto } from './dto/status.dto';
 import { Airline } from './entities/airline.entity';
 import { Flight } from './entities/flight.entity';
-import { FlightSchedule } from './entities/flightSchedule.entity';
+import { FlightSchedule } from './entities/schedule.entity';
 import { Status } from './entities/status.entity';
 
 @Injectable()
@@ -92,10 +93,71 @@ export class FlightService {
 
   }
 
+  // TODO : need to drop off old flights, and include flights from tomorrow if within x hours of now
+  // TODO : pagination
+  // city won't be used until adding origin city
+  async getFlights(dto: FlightSearchDto) {
+    const date = new Date();
+    const d = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+
+    let cityObj = {};
+    if (dto.departing) {
+      cityObj["origin"] = dto.city
+    } else {
+      cityObj["destination"] = dto.city
+    }
+
+    let thing = {
+      flightSchedule: {
+        ...cityObj,
+        domestic: dto.domestic,
+        departing: dto.departing,
+      }
+    }
+    this.logger.log(dto.city);
+    this.logger.log(cityObj);
+    this.logger.log(thing);
+
+    const flightList = await this.flightRepository.find({
+      select: {
+        estimatedDepartureTime: true,
+        actualDepartureTime: true,
+        status: {
+          name: true,
+        },
+        flightSchedule: {
+          destination: true,
+          airline: {
+            name: true,
+          },
+          flightNumber: true
+        }
+      },
+      where: {
+        flightSchedule: {
+          ...cityObj,
+          domestic: dto.domestic,
+        },
+        flightDate: d,
+      },
+      order: { estimatedDepartureTime: "ASC" },
+      relations: { status: true, flightSchedule: true },
+    });
+
+    this.logger.log(flightList);
+
+    return flightList;
+  }
+
   // EVERY_DAY_AT_MIDNIGHT for actual
   // EVERY_10_SECONDS for testing
   // If multiple pods are running, this could be a problem...
   // @Cron(CronExpression.EVERY_10_SECONDS, { name: 'generate_days_flights' })
+  // TODO : create AWS SNS topic on flight creation - would need another cron to delete old topics
   async generateDaysFlights(name: string) {
 
     const job = new CronJob(CronExpression.EVERY_10_SECONDS, async () => {
@@ -118,17 +180,21 @@ export class FlightService {
       });
 
       // To make sure there is no time from the DB timestamp
-      const latestFlightDate = new Date(
-        latestFlight.flightDate.getFullYear(),
-        latestFlight.flightDate.getMonth(),
-        latestFlight.flightDate.getDate()
-      );
+      let latestFlightDate = null;
+      if (latestFlight != null) {
+        latestFlightDate = new Date(
+          latestFlight.flightDate.getFullYear(),
+          latestFlight.flightDate.getMonth(),
+          latestFlight.flightDate.getDate()
+        );
 
-      this.logger.log("===> Latest record");
-      this.logger.log(latestFlight.flightDate);
-      this.logger.log(d);
-      this.logger.log(latestFlightDate);
+        this.logger.log("===> Latest record");
+        this.logger.log(latestFlight.flightDate);
+        this.logger.log(d);
+        this.logger.log(latestFlightDate);
+      }
 
+      // works if latestFlightDate is null
       if (!(latestFlightDate < d)) {
         this.logger.log("Flights are up to date?");
         return;
