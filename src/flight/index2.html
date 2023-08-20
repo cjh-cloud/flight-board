@@ -1,0 +1,10 @@
+<script type="text/javascript">
+  const eventSource = new EventSource('/flight/sse/4');
+  console.log("test2");
+  eventSource.onmessage = ({ data }) => {
+    console.log("test");
+    const message = document.createElement('li');
+    message.innerText = 'New message: ' + data;
+    document.body.appendChild(message);
+  }
+</script>

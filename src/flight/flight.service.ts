@@ -1,8 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CronJob } from 'cron';
+import { Observable } from 'rxjs';
 import { EntityManager, Repository } from 'typeorm';
 import { AirlineDto } from './dto';
 import { FlightDto } from './dto/flight.dto';
@@ -27,6 +29,7 @@ export class FlightService {
     private readonly flightRepository: Repository<Flight>,
     private readonly entityManager: EntityManager,
     private schedulerRegistry: SchedulerRegistry, // IN MEMORY, NOT DISTRIBUTED IF MULTIPLE PODS RUNNING
+    private eventEmitter: EventEmitter2,
   ) {
     // const flightCron = schedulerRegistry.getCronJob('generate_days_flights');
     const configService: ConfigService = new ConfigService();
@@ -38,9 +41,9 @@ export class FlightService {
 
   private readonly logger = new Logger(FlightService.name);
 
-  getHello(): string {
-    return 'Hello World!';
-  }
+  // getHello(): string {
+  //   return 'Hello World!';
+  // }
 
   async getAirlines(): Promise<Airline[]> {
     const airlines = await this.airlineRepository.find();
@@ -93,9 +96,19 @@ export class FlightService {
 
   }
 
+  // The two methods emit event to publish to SSE
+  getTest() {
+    const flightId: number = 3;
+    this.eventEmitter.emit(`flight.${flightId}`, flightId);
+  }
+
+  getTest2() {
+    const flightId: number = 4;
+    this.eventEmitter.emit(`flight.${flightId}`, flightId);
+  }
+
   // TODO : need to drop off old flights, and include flights from tomorrow if within x hours of now
   // TODO : pagination
-  // city won't be used until adding origin city
   async getFlights(dto: FlightSearchDto) {
     const date = new Date();
     const d = new Date(
@@ -118,9 +131,9 @@ export class FlightService {
         departing: dto.departing,
       }
     }
-    this.logger.log(dto.city);
-    this.logger.log(cityObj);
-    this.logger.log(thing);
+    // this.logger.log(dto.city);
+    // this.logger.log(cityObj);
+    // this.logger.log(thing);
 
     const flightList = await this.flightRepository.find({
       select: {
@@ -148,9 +161,23 @@ export class FlightService {
       relations: { status: true, flightSchedule: true },
     });
 
-    this.logger.log(flightList);
+    // this.logger.log(flightList);
 
     return flightList;
+  }
+
+  sse(flightId: number) {
+    console.log(`UGH SSE SERVICE ${flightId}`);
+    // return interval(1000).pipe(
+    //   map((_) => ({ data: { hello: `world ${flightId}` } } as MessageEvent)),
+    // );
+    const test: MessageEvent = { data: { hello: `world ${flightId}` } } as MessageEvent;
+
+    const observable = new Observable<MessageEvent>((subscriber) => {
+      subscriber.next(test);
+    });
+
+    return observable;
   }
 
   // EVERY_DAY_AT_MIDNIGHT for actual
