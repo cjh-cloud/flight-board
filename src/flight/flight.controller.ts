@@ -1,4 +1,4 @@
-import { Body, Controller, Get, MessageEvent, Param, ParseIntPipe, Post, Res, Sse } from '@nestjs/common';
+import { Body, Controller, Get, MessageEvent, Param, ParseIntPipe, Post, Put, Res, Sse } from '@nestjs/common';
 import { fromEvent, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Response } from 'express';
@@ -14,6 +14,7 @@ import { Airline } from './entities/airline.entity';
 import { Flight } from './entities/flight.entity';
 import { Status } from './entities/status.entity';
 import { FlightService } from './flight.service';
+import { FlightDto } from './dto/flight.dto';
 
 @Controller('flight')
 export class FlightController {
@@ -47,13 +48,13 @@ export class FlightController {
 
   @Public()
   @Post('status')
-  createStatus(@Body() dto: StatusDto) {
+  createStatus(@Body() dto: StatusDto) { // ? promise
     return this.flightService.createStatus(dto);
   }
 
   @Public()
   @Post('schedule')
-  createSchedule(@Body() dto: ScheduleDto) {
+  createSchedule(@Body() dto: ScheduleDto) { // ? promise
     return this.flightService.createSchedule(dto);
   }
 
@@ -63,27 +64,40 @@ export class FlightController {
     return this.flightService.getFlights(dto);
   }
 
+  @Public()
+  @Put('update') // ? patch
+  updateFlight(@Body() dto: FlightDto) { // ? promise
+    return this.flightService.updateFlight(dto);
+  }
+
   // ! This might send all events to any subsriber, frontend would have to sort
   // ? So far it looks like it actually works
   @Public()
   @OnEvent('flight.*')
   @Sse('sse/:id')
-  sse(@Param("id", ParseIntPipe) flightId: number): Observable<MessageEvent> {
-    console.log(`SSE CONTROLLER ${flightId}`);
+  sse(
+    @Param("id", ParseIntPipe) flightData: FlightDto
+  ): Observable<MessageEvent> {
 
-    // return this.flightService.sse(flightId);
-    return fromEvent(this.eventEmitter, `flight.${flightId}`).pipe(
-      map((_) => ({ data: { hello: `world ${flightId}` } } as MessageEvent)),
+    return fromEvent(this.eventEmitter, `flight.${flightData}`).pipe(
+      map(updatedFlight => (
+        {
+          data: {
+            flightId: flightData,
+            flightData: JSON.stringify(updatedFlight),
+          }
+        } as MessageEvent)),
     );
   }
 
+  // * Everything below is for testing Server Sent Events
   // These two endpoints return HTML that subscribes to an SSE
   @Public()
   @Get('ssetest')
   index(@Res() response: Response) {
     response
       .type('text/html')
-      .send(readFileSync(join(__dirname, 'index.html')).toString());
+      .send(readFileSync(join(__dirname, '../../assets/index.html')).toString());
   }
 
   @Public()
@@ -91,7 +105,7 @@ export class FlightController {
   index2(@Res() response: Response) {
     response
       .type('text/html')
-      .send(readFileSync(join(__dirname, 'index2.html')).toString());
+      .send(readFileSync(join(__dirname, '../../assets/index2.html')).toString());
   }
 
   // These two endpoints emit event to publish to SSE

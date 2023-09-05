@@ -4,6 +4,10 @@ import { Status } from "../entities/status.entity";
 
 export class FlightDto {
 
+  // Optional, used when updating but not creating
+  @IsNumber()
+  id: number;
+
   @IsNotEmpty()
   flightSchedule: FlightSchedule;
 

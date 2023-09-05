@@ -96,15 +96,27 @@ export class FlightService {
 
   }
 
-  // The two methods emit event to publish to SSE
-  getTest() {
-    const flightId: number = 3;
-    this.eventEmitter.emit(`flight.${flightId}`, flightId);
-  }
+  // TODO : check id is in the object, otherwise don't update
+  async updateFlight(dto: FlightDto) {
 
-  getTest2() {
-    const flightId: number = 4;
-    this.eventEmitter.emit(`flight.${flightId}`, flightId);
+    // Status - get the ontime status
+    let status: Status = await this.statusRepository.findOne({
+      where: {
+        name: dto.status.name
+      }
+    });
+
+    dto.status = status;
+
+    const updatedFlight = new Flight({
+      ...dto
+    });
+
+    this.logger.log(updatedFlight.status);
+
+    this.eventEmitter.emit(`flight.${updatedFlight.id}`, dto);
+
+    await this.entityManager.save(updatedFlight);
   }
 
   // TODO : need to drop off old flights, and include flights from tomorrow if within x hours of now
@@ -166,23 +178,8 @@ export class FlightService {
     return flightList;
   }
 
-  sse(flightId: number) {
-    console.log(`UGH SSE SERVICE ${flightId}`);
-    // return interval(1000).pipe(
-    //   map((_) => ({ data: { hello: `world ${flightId}` } } as MessageEvent)),
-    // );
-    const test: MessageEvent = { data: { hello: `world ${flightId}` } } as MessageEvent;
-
-    const observable = new Observable<MessageEvent>((subscriber) => {
-      subscriber.next(test);
-    });
-
-    return observable;
-  }
-
   // EVERY_DAY_AT_MIDNIGHT for actual
   // EVERY_10_SECONDS for testing
-  // If multiple pods are running, this could be a problem...
   // @Cron(CronExpression.EVERY_10_SECONDS, { name: 'generate_days_flights' })
   // TODO : create AWS SNS topic on flight creation - would need another cron to delete old topics
   async generateDaysFlights(name: string) {
@@ -285,6 +282,18 @@ export class FlightService {
     this.logger.warn(
       `job ${name} added for every ${CronExpression.EVERY_10_SECONDS}!`,
     );
+  }
+
+  // * Everything below is for testing Server Sent Events
+  // The two methods emit event to publish to SSE
+  getTest() {
+    const flightId: number = 3;
+    this.eventEmitter.emit(`flight.${flightId}`, flightId);
+  }
+
+  getTest2() {
+    const flightId: number = 4;
+    this.eventEmitter.emit(`flight.${flightId}`, flightId);
   }
 
 }

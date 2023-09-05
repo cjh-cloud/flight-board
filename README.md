@@ -36,11 +36,15 @@
 - [x] Flight Schedules
 - [x] Flights
 - [x] Cron process to generate flights for the day 
-- [ ] Pub/Sub, emit events on changes to flights, update api, redis or aws sns
+- [x] Pub/Sub, emit events on changes to flights, update api, redis or aws sns
 - [ ] Health Checks
 - [ ] Caching
 
-### Testing SSE
+### Testing Server Sent Events
+
+nest-cli.json        - The `assets` block under `compilerOptions` 
+flight.controller.ts - Methods at the bottom of the file.
+flight.service.ts    - Methods at the bottom of the file.
 
 The following endpoints will return HTML that subscribes to SSEs:
 http://localhost:3000/flight/ssetest
