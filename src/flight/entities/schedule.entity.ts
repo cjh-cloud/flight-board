@@ -1,5 +1,5 @@
 import { AbstractEntity } from "../../database/abstract.entity";
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, Unique } from "typeorm";
 import { Airline } from "./airline.entity";
 import { Flight } from "./flight.entity";
 
@@ -14,18 +14,17 @@ export class FlightSchedule extends AbstractEntity<FlightSchedule> {
   @OneToMany(() => Flight, (flight) => flight.flightSchedule, { cascade: true })
   flights: Flight[];
 
-  @Column()
+  @Column({ unique: true })
   flightNumber: string;
+
+  @Column()
+  origin: string;
 
   @Column()
   destination: string;
 
   @Column('time')
   scheduledDepartureTime: Date; // Time, does not need date
-
-  // departing / arriving -  arriving is false
-  @Column()
-  departing: boolean;
 
   // domestic / international - international is false
   @Column()

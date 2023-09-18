@@ -12,6 +12,10 @@ export class ScheduleDto {
 
   @IsNotEmpty()
   @IsString()
+  origin: string;
+
+  @IsNotEmpty()
+  @IsString()
   destination: string;
 
   @IsNotEmpty()

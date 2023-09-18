@@ -1,7 +1,6 @@
 import { AbstractEntity } from "../../database/abstract.entity";
 import { Column, Entity, ManyToOne } from "typeorm";
-import { Airline } from "./airline.entity";
-import { FlightSchedule } from "./flightSchedule.entity";
+import { FlightSchedule } from "./schedule.entity";
 import { Status } from "./status.entity";
 
 @Entity()
