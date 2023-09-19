@@ -101,6 +101,13 @@ $ helm dependency update
 
 yarn add @nestjs/event-emitter
 
+yarn add @nestjs/terminus
+nest g module health
+nest g controller health
+yarn add @nestjs/axios axios
+
+yarn add @opentelemetry/api @opentelemetry/auto-instrumentations-node @opentelemetry/exporter-trace-otlp-http @opentelemetry/exporter-zipkin @opentelemetry/sdk-node @opentelemetry/semantic-conventions
+
 ## Installation
 
 ```bash

@@ -12,6 +12,7 @@ import { AtGuard } from './common/guards';
 import { FlightModule } from './flight/flight.module';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { CustomPrometheusController } from "./prometheus.controller";
+import { HealthModule } from './health/health.module';
 
 
 @Module({
@@ -22,7 +23,8 @@ import { CustomPrometheusController } from "./prometheus.controller";
     }),
     AuthModule,
     DatabaseModule,
-    FlightModule
+    FlightModule,
+    HealthModule
   ],
   controllers: [
     AppController,

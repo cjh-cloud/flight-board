@@ -1,6 +1,17 @@
+import { initTelemetry } from "./health/OpenTelemetry";
+// ----- this has to come before imports! -------
+initTelemetry({
+  appName: process.env.OPEN_TELEMETRY_APP_NAME || "",
+  telemetryUrl: process.env.OPEN_TELEMETRY_URL || "",
+});
+console.log("initialised telemetry");
+// -------------
+
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
