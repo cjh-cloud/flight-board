@@ -26,7 +26,7 @@ type Flight struct {
 	ID int `json:"id"`
 	EstimatedDepartureTime time.Time
 	ActualDepartureTime sql.NullTime
-	FlightDate time.Time // date
+	FlightDate time.Time
 	Display bool
 	FlightScheduleId int
 	StatusId int

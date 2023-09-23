@@ -3,44 +3,53 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 )
 
-// generate tomorrows flights
-
+// Generate tomorrows flights
 func main() {
 	fmt.Println("🚀 Flight Generator ");
-
-	// get tomorrows date
-	today := time.Now()
-	tomorrow := today.AddDate(0, 0, 1)
-
-	fmt.Println("Today: ", today)
-	fmt.Println("Tomorrow: ", tomorrow)
 
 	store, err := NewPostgresStore()
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	//init the loc
+	loc, _ := time.LoadLocation(os.Getenv("TIMEZONE"))
+
+	// get tomorrows date
+	today := time.Now().In(loc)
+	tomorrow := today.AddDate(0, 0, 1)
+
 	// get latest flight in table
 	latestFlight, err := store.GetLatestFlight()
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("latest flight: ", latestFlight.FlightDate.Local())
+
+	fmt.Println("Today: ", today)
+	fmt.Println("Tomorrow: ", tomorrow)
+	fmt.Println("latest flight: ", latestFlight.FlightDate.Local().In(loc))
 
 	// If latest flight is same as today, return
-	// latestFlight.FlightDate.Local().Before(today)
-	if today.After(latestFlight.FlightDate.Local()) {
+	if today.After(latestFlight.FlightDate.Local().In(loc)) {
 		fmt.Println("Generating tomorrow's flights...")
 	} else {
 		fmt.Println("Flight's have already been generated. Exiting...")
-		return
+		return // Exit main method
 	}
 
+	AddFlights(*store, tomorrow)
+
+	fmt.Println("Finished generating flights. Exiting...")
+}
+
+// Add flights for a day (in this case, tomorrow)
+func AddFlights(store PostgresStore, flightDate time.Time) {
 	// get schedules where day of week is same as today
-	schedules, err := store.GetTomorrowsSchedules()
+	schedules, err := store.GetDaySchedules(flightDate)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -50,11 +59,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// loop through each schedule and add flight to table - might need on time status
+	// loop through each schedule and add flight to table
 	for _, schedule := range schedules {
 		flight := new(Flight)
 		flight.EstimatedDepartureTime = schedule.ScheduleDepartureTime
-		flight.FlightDate = time.Now().AddDate(0, 0, 1) // Need this to be time when writing to DB...
+		flight.FlightDate = flightDate
 		flight.Display = true
 		flight.FlightScheduleId = schedule.ID
 		flight.StatusId = onTimeStatus.ID
@@ -63,7 +72,4 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-
-	fmt.Println("Finished generating flights. Exiting...")
-
 }

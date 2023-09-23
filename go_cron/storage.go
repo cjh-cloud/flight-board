@@ -3,16 +3,18 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 type Storage interface {
 	GetLatestFlight() (*Flight, error)
-	CreateFlight(*Flight) error // might want batch
-	GetStatusId(string) (*Status, error) // On time
+	CreateFlight(*Flight) error
+	GetStatusId(string) (*Status, error)
 	GetFlights([]*Flight) error
 	GetSchedules(string) ([]*Schedule, error)
 }
@@ -22,7 +24,10 @@ type PostgresStore struct {
 }
 
 func NewPostgresStore() (*PostgresStore, error) {
-	connStr := "user=root dbname=nestjs_typeorm password=randomrootpassword sslmode=disable"
+	godotenv.Load()
+	connStr := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s", 
+		os.Getenv("HOST"), os.Getenv("PORT"), os.Getenv("DBUSER"), os.Getenv("DBNAME"), os.Getenv("DBPASS"), os.Getenv("SSLMODE"))
+
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, err
@@ -92,11 +97,9 @@ func (s *PostgresStore) GetStatusId(name string) (*Status, error) {
 	return nil, fmt.Errorf("Status '%s' not found", name)
 }
 
-// func (s *PostgresStore) GetFlights() ([]*Flight, error) { }
-
-func (s *PostgresStore) GetTomorrowsSchedules() ([]*Schedule, error) {
+func (s *PostgresStore) GetDaySchedules(flightDate time.Time) ([]*Schedule, error) {
 	day := strings.ToLower(
-		time.Now().AddDate(0, 0, 1).Weekday().String(),
+		flightDate.Weekday().String(),
 	)
 
 	rows, err := s.db.Query("SELECT * FROM flight_schedule WHERE " + day + " = true")

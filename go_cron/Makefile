@@ -8,3 +8,9 @@ run: build
 
 test:
 	@go test -v ./...
+
+image_build:
+	@docker build -t go-cron .
+
+image_run:
+	@docker run --rm go-cron
