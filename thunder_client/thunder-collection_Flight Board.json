@@ -1,0 +1,256 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Flight Board",
+    "collectionId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+    "dateExported": "2024-04-19T21:31:26.412Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "a5462ce5-f2c1-45a7-9fac-c2f7933da06c",
+            "colId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+            "containerId": "",
+            "name": "Flight Sign Up",
+            "url": "http://localhost:3000/auth/local/signup",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-08-03T06:57:40.217Z",
+            "modified": "2023-08-03T06:57:40.217Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoidGVzdDJAZ21haWwuY29tIiwiaWF0IjoxNjg2Mzg3MDk2LCJleHAiOjE2ODYzODc5OTZ9.c2CUMF8otWi8UtGtucUoBSiq6VDgIy3RihVfQLsV_qs"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\" : \"test3@gmail.com\",\n  \"password\": \"bruh\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "afde322b-c30e-4803-9869-b5bac3d79051",
+            "colId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+            "containerId": "",
+            "name": "Sign In",
+            "url": "http://localhost:3000/auth/local/signin",
+            "method": "POST",
+            "sortNum": 15000,
+            "created": "2023-08-03T07:28:46.421Z",
+            "modified": "2023-08-25T23:59:37.437Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdDNAZ21haWwuY29tIiwiaWF0IjoxNjkzMDA3ODk3LCJleHAiOjE2OTMwMDg3OTd9.maMu-yZGCOPQVE68fuxGmAx3PTIYNHVKkT__w1TLFak"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\" : \"test3@gmail.com\",\n  \"password\": \"bruh\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "03542378-30b0-4f51-b7c4-4975f673af72",
+            "colId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+            "containerId": "",
+            "name": "Logout",
+            "url": "http://localhost:3000/auth/logout",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-08-03T06:57:53.659Z",
+            "modified": "2023-08-03T07:30:39.142Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoidGVzdDJAZ21haWwuY29tIiwiaWF0IjoxNjg2Mzg3MDk2LCJleHAiOjE2ODYzODc5OTZ9.c2CUMF8otWi8UtGtucUoBSiq6VDgIy3RihVfQLsV_qs"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE2OTEwNDc4MDMsImV4cCI6MTY5MTA0ODcwM30.a5HJTvRsb2rvhb5xbtgtaoDpTZ_URfbu1Ilru4F_Q4s"
+            },
+            "tests": []
+        },
+        {
+            "_id": "478cada4-60be-41dd-9b21-b570234e64f2",
+            "colId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+            "containerId": "",
+            "name": "Refresh",
+            "url": "http://localhost:3000/auth/refresh",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-08-03T07:32:55.390Z",
+            "modified": "2023-08-03T07:33:40.849Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoidGVzdDJAZ21haWwuY29tIiwiaWF0IjoxNjg2Mzg3MDk2LCJleHAiOjE2ODYzODc5OTZ9.c2CUMF8otWi8UtGtucUoBSiq6VDgIy3RihVfQLsV_qs"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE2OTEwNDgwMDQsImV4cCI6MTY5MTY1MjgwNH0.2C2P9KFRMBWsPNSHKdAFh2WocyBqdjpOojpyV8gGrsc"
+            },
+            "tests": []
+        },
+        {
+            "_id": "18ed3140-7765-4504-b4bf-8905a0e0c04a",
+            "colId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+            "containerId": "",
+            "name": "Airline",
+            "url": "http://localhost:3000/flight/airline",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-08-04T02:30:40.051Z",
+            "modified": "2023-08-26T00:00:45.885Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE2OTEwNDk1OTEsImV4cCI6MTY5MTA1MDQ5MX0.vyw3lScCoVsXLw8CclkV9nj9Ta0j3A53EhqYzn7fU6I"
+            },
+            "tests": []
+        },
+        {
+            "_id": "5e713378-8bd6-44cd-9c5c-bd7d080bb445",
+            "colId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+            "containerId": "",
+            "name": "Flights",
+            "url": "http://localhost:3000/flight",
+            "method": "GET",
+            "sortNum": 42500,
+            "created": "2023-08-11T03:02:46.236Z",
+            "modified": "2023-08-26T22:46:04.100Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"city\": \"Auckland\",\n  \"departing\": true,\n  \"domestic\": true\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE2OTEwNDk1OTEsImV4cCI6MTY5MTA1MDQ5MX0.vyw3lScCoVsXLw8CclkV9nj9Ta0j3A53EhqYzn7fU6I"
+            },
+            "tests": []
+        },
+        {
+            "_id": "58e2e157-872f-4e05-9410-2ccea184684b",
+            "colId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+            "containerId": "",
+            "name": "Status",
+            "url": "http://localhost:3000/flight/status",
+            "method": "GET",
+            "sortNum": 45000,
+            "created": "2023-08-04T02:45:13.663Z",
+            "modified": "2023-08-26T00:00:35.813Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE2OTEwNDk1OTEsImV4cCI6MTY5MTA1MDQ5MX0.vyw3lScCoVsXLw8CclkV9nj9Ta0j3A53EhqYzn7fU6I"
+            },
+            "tests": []
+        },
+        {
+            "_id": "7a76b1c3-7eee-4b68-b1bb-b646405a301c",
+            "colId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+            "containerId": "",
+            "name": "Airline",
+            "url": "http://localhost:3000/flight/airline",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-08-04T02:31:16.296Z",
+            "modified": "2023-08-04T02:31:29.266Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Air New Zealand\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE2OTEwNDk1OTEsImV4cCI6MTY5MTA1MDQ5MX0.vyw3lScCoVsXLw8CclkV9nj9Ta0j3A53EhqYzn7fU6I"
+            },
+            "tests": []
+        },
+        {
+            "_id": "246f3e40-52c9-46c8-8239-4e0d383a4883",
+            "colId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+            "containerId": "",
+            "name": "Status",
+            "url": "http://localhost:3000/flight/status",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2023-08-04T02:45:35.959Z",
+            "modified": "2023-08-26T03:30:20.971Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Delayed\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE2OTEwNDk1OTEsImV4cCI6MTY5MTA1MDQ5MX0.vyw3lScCoVsXLw8CclkV9nj9Ta0j3A53EhqYzn7fU6I"
+            },
+            "tests": []
+        },
+        {
+            "_id": "a1295d0c-399f-486c-a01c-6258f8864304",
+            "colId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+            "containerId": "",
+            "name": "Schedule",
+            "url": "http://localhost:3000/flight/schedule",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-08-05T04:25:14.051Z",
+            "modified": "2023-09-01T03:51:50.955Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"airline\": 1,\n  \"flightNumber\": \"NZ002\",\n  \"origin\": \"Auckland\",\n  \"destination\": \"Christchurch\",\n  \"scheduledDepartureTime\": \"13:30:00\",\n  \"departing\": true,\n  \"domestic\": true,\n  \"monday\": true,\n  \"tuesday\": false,\n  \"wednesday\": true,\n  \"thursday\": false,\n  \"friday\": true,\n  \"saturday\": false,\n  \"sunday\": true\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE2OTEwNDk1OTEsImV4cCI6MTY5MTA1MDQ5MX0.vyw3lScCoVsXLw8CclkV9nj9Ta0j3A53EhqYzn7fU6I"
+            },
+            "tests": []
+        },
+        {
+            "_id": "2dd45a2e-df80-496a-b0fc-82cb445a4bb8",
+            "colId": "8f3f3ba8-c493-4743-b857-4be82222a27c",
+            "containerId": "",
+            "name": "Update Flight",
+            "url": "http://localhost:3000/flight/update",
+            "method": "PUT",
+            "sortNum": 80000,
+            "created": "2023-08-26T03:31:18.257Z",
+            "modified": "2023-09-05T07:48:12.243Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 3,\n  \"estimatedDepartureTime\": \"09:45:00\",\n  \"actualDepartureTime\": \"10:05:00\",\n  \"flightDate\": \"2023-08-28 00:00:00\",\n  \"display\": false,\n  \"status\": {\n    \"name\": \"Delayed\"\n  }\n}\n",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE2OTEwNDk1OTEsImV4cCI6MTY5MTA1MDQ5MX0.vyw3lScCoVsXLw8CclkV9nj9Ta0j3A53EhqYzn7fU6I"
+            },
+            "tests": []
+        }
+    ],
+    "ref": "y4_9zsHjQaUmw1gBAXnMtSYKdUiX_GQrp6pn8QV_zssF70E9g-E3MdBO12-YdclQ9AgoO9KTsf1uImm3oIkYCQ"
+}
