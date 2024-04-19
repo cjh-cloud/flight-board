@@ -28,13 +28,23 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	latestFlightNZT := latestFlight.FlightDate.In(loc) // Convert DB time to NZST/NZDT
+	latestFlightMidnight := time.Date(
+		latestFlightNZT.Year(),
+		latestFlightNZT.Month(),
+		latestFlightNZT.Day(),
+		0, 0, 0, 0,
+		loc,
+	) // Create new date with latest flight, and set time to Midnight NZST/NZDT
 
 	fmt.Println("Today: ", today)
 	fmt.Println("Tomorrow: ", tomorrow)
-	fmt.Println("latest flight: ", latestFlight.FlightDate.Local().In(loc))
+	fmt.Println("latest flight: ", latestFlight.FlightDate.In(loc))
+
+	fmt.Println("latest flight New: ", latestFlightMidnight)
 
 	// If latest flight is same as today, return
-	if today.After(latestFlight.FlightDate.Local().In(loc)) {
+	if today.After(latestFlightMidnight) {
 		fmt.Println("Generating tomorrow's flights...")
 	} else {
 		fmt.Println("Flight's have already been generated. Exiting...")
