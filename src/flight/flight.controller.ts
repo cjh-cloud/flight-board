@@ -108,17 +108,17 @@ export class FlightController {
       .send(readFileSync(join(__dirname, '../../assets/index2.html')).toString());
   }
 
-  // These two endpoints emit event to publish to SSE
-  @Public()
-  @Get('test')
-  getTest() {
-    return this.flightService.getTest();
-  }
+  // // These two endpoints emit event to publish to SSE
+  // @Public()
+  // @Get('test')
+  // getTest() {
+  //   return this.flightService.getTest();
+  // }
 
-  @Public()
-  @Get('test2')
-  getTest2() {
-    return this.flightService.getTest2();
-  }
+  // @Public()
+  // @Get('test2')
+  // getTest2() {
+  //   return this.flightService.getTest2();
+  // }
 
 }

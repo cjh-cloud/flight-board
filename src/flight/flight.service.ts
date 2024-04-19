@@ -252,7 +252,7 @@ export class FlightService {
 
       // Insert into flights - loop through
       let flights: Flight[] = [];
-      flightList.forEach((flightSchedule: FlightSchedule, i) => {
+      flightList.forEach((flightSchedule: FlightSchedule) => { // ! removed , i
         let flightObj = new FlightDto();
         flightObj.flightSchedule = flightSchedule;
         flightObj.estimatedDepartureTime = flightSchedule.scheduledDepartureTime;
@@ -284,16 +284,16 @@ export class FlightService {
     );
   }
 
-  // * Everything below is for testing Server Sent Events
-  // The two methods emit event to publish to SSE
-  getTest() {
-    const flightId: number = 3;
-    this.eventEmitter.emit(`flight.${flightId}`, flightId);
-  }
+  // // * Everything below is for testing Server Sent Events
+  // // The two methods emit event to publish to SSE
+  // getTest() {
+  //   const flightId: number = 3;
+  //   this.eventEmitter.emit(`flight.${flightId}`, flightId);
+  // }
 
-  getTest2() {
-    const flightId: number = 4;
-    this.eventEmitter.emit(`flight.${flightId}`, flightId);
-  }
+  // getTest2() {
+  //   const flightId: number = 4;
+  //   this.eventEmitter.emit(`flight.${flightId}`, flightId);
+  // }
 
 }
